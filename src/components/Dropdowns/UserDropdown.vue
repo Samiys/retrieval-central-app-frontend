@@ -48,8 +48,9 @@
       <a
         href="javascript:void(0);"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+        @click="logout"
       >
-        Seprated link
+        Logout
       </a>
     </div>
   </div>
@@ -59,6 +60,7 @@
 import { createPopper } from "@popperjs/core";
 
 import image from "@/assets/img/team-1-800x800.jpg";
+import { AuthService } from "../../assets/common/auth.service";
 
 export default {
   data() {
@@ -68,6 +70,10 @@ export default {
     };
   },
   methods: {
+    logout() {
+      AuthService.removeToken();
+      this.$router.push('/login');
+    },
     toggleDropdown: function (event) {
       event.preventDefault();
       if (this.dropdownPopoverShow) {

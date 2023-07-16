@@ -1,5 +1,5 @@
-import axios from 'axios';
-const API_URL = 'http://localhost:3031';
+import axios from './axios';
+// const API_URL = 'http://localhost:3031';
 
 export const UserService = {
     switchAccount(email) {
@@ -11,7 +11,7 @@ export const UserService = {
         return window.axios.get(`/userswitch/` + id)
     },
     getUsers() {
-        return axios.get(`${API_URL}/getUsers`);
+        return axios.get(`/getUsers`);
     },
     // disableNewDashboard() {
     //     return window.axios.post(`${USER_URL}/dashboard-toggle`, {dashboard_status: 0});

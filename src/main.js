@@ -18,13 +18,13 @@ import Auth from "@/layouts/Auth.vue";
 // views for Admin layout
 
 import Dashboard from "@/views/admin/Dashboard.vue";
-import Settings from "@/views/admin/Settings.vue";
-import Tables from "@/views/admin/Tables.vue";
+// import Settings from "@/views/admin/Settings.vue";
+// import Tables from "@/views/admin/Tables.vue";
+// import Maps from "@/views/admin/Maps.vue";
 import Users from "@/views/admin/Users.vue";
 import Stores from "@/views/admin/Stores.vue";
 import Products from "@/views/admin/Products.vue";
 import Orders from "@/views/admin/Orders.vue";
-import Maps from "@/views/admin/Maps.vue";
 import BrickMortarOrder from "@/views/admin/BrickMortarOrder.vue";
 
 // views for Auth layout
@@ -34,7 +34,7 @@ import Register from "@/views/auth/Register.vue";
 
 // views without layouts
 
-import Landing from "@/views/Landing.vue";
+// import Landing from "@/views/Landing.vue";
 import Profile from "@/views/Profile.vue";
 import Index from "@/views/Index.vue";
 
@@ -49,63 +49,84 @@ const routes = [
       {
         path: "/admin/dashboard",
         component: Dashboard,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/admin/users",
         component: Users,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/admin/stores",
         component: Stores,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/admin/products",
         component: Products,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/admin/orders",
         component: Orders,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/admin/brick-mortar-order",
         component: BrickMortarOrder,
+        meta: {
+          requiresAuth: true
+        }
       },
-      {
-        path: "/admin/settings",
-        component: Settings,
-      },
-      {
-        path: "/admin/tables",
-        component: Tables,
-      },
-      {
-        path: "/admin/maps",
-        component: Maps,
-      },
+      // {
+      //   path: "/admin/settings",
+      //   component: Settings,
+      // },
+      // {
+      //   path: "/admin/tables",
+      //   component: Tables,
+      // },
+      // {
+      //   path: "/admin/maps",
+      //   component: Maps,
+      // },
     ],
   },
   {
-    path: "/auth",
-    redirect: "/auth/login",
+    path: "/",
+    redirect: "/login",
     component: Auth,
     children: [
       {
-        path: "/auth/login",
+        path: "/login",
         component: Login,
       },
       {
-        path: "/auth/register",
+        path: "/register",
         component: Register,
       },
     ],
   },
-  {
-    path: "/landing",
-    component: Landing,
-  },
+  // {
+  //   path: "/landing",
+  //   component: Landing,
+  // },
   {
     path: "/profile",
     component: Profile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/",
@@ -117,6 +138,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  if (to.meta.requiresAuth && !token) {
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 createApp(App).use(router).mount("#app");

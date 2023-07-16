@@ -75,7 +75,7 @@ export default {
     loadUserData() {
       UserService.getUsers()
           .then(response => {
-            this.users = response.data.length;
+            this.users = String(response.data.length);
           })
           .catch(error => {
             this.error = error.message;
@@ -84,7 +84,7 @@ export default {
     loadStoreData() {
       StoreService.getStoresInfo()
           .then(response => {
-            this.stores = response.data.length;
+            this.stores = String(response.data.length);
           })
           .catch(error => {
             this.error = error.message;
@@ -93,7 +93,7 @@ export default {
     loadProductsData() {
       ProductService.getProducts()
           .then(response => {
-            this.products = response.data.length;
+            this.products = String(response.data.length);
           })
           .catch(error => {
             this.error = error.message;
@@ -102,7 +102,7 @@ export default {
     loadOrdersData() {
       OrderService.getOrders()
           .then(response => {
-            this.orders = response.data.length;
+            this.orders = String(response.data.length);
           })
           .catch(error => {
             this.error = error.message;
@@ -111,7 +111,7 @@ export default {
     loadBrickMortarOrdersData() {
       BrickMortarService.getBrickMortarOrders()
           .then(response => {
-            this.apiData = response.data;
+            this.apiData = String(response.data);
           })
           .catch(error => {
             this.error = error.message;
