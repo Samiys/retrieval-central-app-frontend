@@ -1,6 +1,6 @@
 {
-  "name": "retrieval",
-  "version": "1.1.0",
+  "name": "retrieval-central-app-frontend",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",

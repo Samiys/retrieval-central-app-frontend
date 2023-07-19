@@ -125,11 +125,8 @@ export default {
       AuthService.login(this.email, this.password)
         .then(response => {
           const token = response.data.token;
-          console.log(token);
-          // Save the token in local storage
           AuthService.setToken(token);
-          // Redirect the user to the protected route
-          this.$router.push('/admin/dashboard');
+          this.$router.push('/admin/users');
         })
         .catch(error => {
           this.error
