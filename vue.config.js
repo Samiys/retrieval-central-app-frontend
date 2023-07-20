@@ -1,6 +1,6 @@
 // vue.config.js
 module.exports = {
-  untimeCompiler: true,
+  runtimeCompiler: true,
   chainWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {
       // Disable CSS minification
