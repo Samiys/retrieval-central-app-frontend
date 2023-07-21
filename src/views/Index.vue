@@ -25,14 +25,14 @@
             </p>
             <div class="mt-12">
               <a
-                href="https://www.creative-tim.com/learning-lab/tailwind/vue/overview/notus?ref=vn-index"
+                href="#"
                 target="_blank"
                 class="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-emerald-500 active:bg-emerald-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
               >
                 Get started
               </a>
               <a
-                href="https://github.com/creativetimofficial/vue-notus?ref=vn-index"
+                href="#"
                 class="github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
                 target="_blank"
               >
@@ -241,7 +241,7 @@
               </span>
             </div>
             <a
-              href="https://www.creative-tim.com/learning-lab/tailwind/vue/alerts/notus?ref=vn-index"
+              href="#"
               target="_blank"
               class="font-bold text-blueGray-700 hover:text-blueGray-500 ease-linear transition-all duration-150"
             >
@@ -293,7 +293,7 @@
             <div class="justify-center flex flex-wrap relative">
               <div class="my-4 w-full lg:w-6/12 px-4">
                 <a
-                  href="https://www.creative-tim.com/learning-lab/tailwind/svelte/alerts/notus?ref=vn-index"
+                  href="#"
                   target="_blank"
                 >
                   <div class="bg-red-600 shadow-lg rounded-lg text-center p-8">
@@ -308,7 +308,7 @@
                   </div>
                 </a>
                 <a
-                  href="https://www.creative-tim.com/learning-lab/tailwind/react/alerts/notus?ref=vn-index"
+                  href="#"
                   target="_blank"
                 >
                   <div
@@ -325,7 +325,7 @@
                   </div>
                 </a>
                 <a
-                  href="https://www.creative-tim.com/learning-lab/tailwind/nextjs/alerts/notus?ref=vn-index"
+                  href="#"
                   target="_blank"
                 >
                   <div
@@ -344,7 +344,7 @@
               </div>
               <div class="my-4 w-full lg:w-6/12 px-4 lg:mt-16">
                 <a
-                  href="https://www.creative-tim.com/learning-lab/tailwind/js/alerts/notus?ref=vn-index"
+                  href="#"
                   target="_blank"
                 >
                   <div
@@ -361,7 +361,7 @@
                   </div>
                 </a>
                 <a
-                  href="https://www.creative-tim.com/learning-lab/tailwind/angular/alerts/notus?ref=vn-index"
+                  href="#"
                   target="_blank"
                 >
                   <div
@@ -378,7 +378,7 @@
                   </div>
                 </a>
                 <a
-                  href="https://www.creative-tim.com/learning-lab/tailwind/vue/alerts/notus?ref=vn-index"
+                  href="#"
                   target="_blank"
                 >
                   <div
@@ -463,7 +463,7 @@
               </span>
             </div>
             <a
-              href="https://www.creative-tim.com/learning-lab/tailwind/vue/alerts/notus?ref=vn-index"
+              href="#"
               target="_blank"
               class="font-bold text-blueGray-700 hover:text-blueGray-500 ease-linear transition-all duration-150"
             >
@@ -724,14 +724,14 @@
             </p>
             <div class="sm:block flex flex-col mt-10">
               <a
-                href="https://www.creative-tim.com/learning-lab/tailwind/vue/overview/notus?ref=vn-index"
+                href="#"
                 target="_blank"
                 class="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-2 bg-emerald-500 active:bg-emerald-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
               >
                 Get started
               </a>
               <a
-                href="https://github.com/creativetimofficial/vue-notus?ref=vn-index"
+                href="#"
                 target="_blank"
                 class="github-star sm:ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
               >
