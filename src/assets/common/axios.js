@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AuthService } from "./auth.service";
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost:3031",
@@ -13,6 +14,7 @@ axiosInstance.interceptors.request.use(
         return config;
     },
     (error) => {
+        AuthService.removeToken();
         return Promise.reject(error);
     }
 );
