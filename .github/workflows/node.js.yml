@@ -27,6 +27,9 @@ jobs:
     - run: npm install
     - run: npm run build --if-present
 
+    - name: Restore .env File
+      run: echo "${{ secrets.ENV_FILE }}" > .env
+
     - run: npm install pm2@latest -g
     - run: pm2 list
     - run: pm2 restart retrieval-frontend
