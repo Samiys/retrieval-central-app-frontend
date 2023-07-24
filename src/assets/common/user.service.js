@@ -1,5 +1,5 @@
 import axios from './axios';
-// const API_URL = 'http://localhost:3031';
+// const API_URL = process.env.VUE_APP_BACKEND_URL;
 
 export const UserService = {
     switchAccount(email) {

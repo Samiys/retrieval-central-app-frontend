@@ -1,9 +1,8 @@
 import axios from 'axios';
-const API_URL = 'http://localhost:3031';
+const API_URL = process.env.VUE_APP_BACKEND_URL;
 
 export const AuthService = {
     login(email, password) {
-        console.log(email, password);
         return axios.post(`${API_URL}/login`, {
             email: email,
             password: password

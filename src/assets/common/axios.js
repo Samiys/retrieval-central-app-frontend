@@ -2,7 +2,7 @@ import axios from "axios";
 import { AuthService } from "./auth.service";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:3031",
+    baseURL: process.env.VUE_APP_BACKEND_URL
 });
 
 axiosInstance.interceptors.request.use(
