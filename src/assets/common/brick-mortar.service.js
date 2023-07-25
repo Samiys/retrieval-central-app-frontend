@@ -1,8 +1,8 @@
 import axios from './axios';
-const API_URL = 'http://localhost:3031/shopify';
+const prefix = '/shopify';
 
 export const BrickMortarService = {
     getBrickMortarOrders() {
-        return axios.get(`${API_URL}/getBrickMortarOrders`);
+        return axios.get(`${prefix}/getBrickMortarOrders`);
     },
 }

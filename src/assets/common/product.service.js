@@ -1,8 +1,8 @@
 import axios from './axios';
-const API_URL = 'http://localhost:3031/shopify';
+const prefix = '/shopify';
 
 export const ProductService = {
     getProducts() {
-        return axios.get(`${API_URL}/getProducts`);
+        return axios.get(`${prefix}/getProducts`);
     },
 }
