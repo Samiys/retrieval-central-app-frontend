@@ -23,6 +23,7 @@ import Dashboard from "@/views/admin/Dashboard.vue";
 // import Maps from "@/views/admin/Maps.vue";
 import Users from "@/views/admin/Users.vue";
 import Stores from "@/views/admin/Stores.vue";
+import Mapping from "@/views/admin/Mapping.vue";
 import Products from "@/views/admin/Products.vue";
 import Orders from "@/views/admin/Orders.vue";
 import BrickMortarOrder from "@/views/admin/BrickMortarOrder.vue";
@@ -63,6 +64,13 @@ const routes = [
       {
         path: "/admin/stores",
         component: Stores,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "/admin/mapping",
+        component: Mapping,
         meta: {
           requiresAuth: true
         }
