@@ -39,6 +39,10 @@ import Register from "@/views/auth/Register.vue";
 import Profile from "@/views/Profile.vue";
 import Index from "@/views/Index.vue";
 
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'jquery/src/jquery.js'
+import 'bootstrap/dist/js/bootstrap.min.js'
+
 // routes
 
 const routes = [
