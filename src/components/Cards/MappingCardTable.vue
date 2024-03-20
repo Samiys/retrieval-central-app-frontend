@@ -36,8 +36,9 @@
           <div class="preview-header">Distributor Stores</div>
           <div class="preview-list">
             <ul class="list-group">
-              <li class="list-group-item" v-for="item in distributorStores" :key="item.id">
-                <a href="#" @click="selectDistributorItem(item)">{{ item.shop_domain }}</a>
+              <li class="list-group-item cursor-pointer" v-for="item in distributorStores" :key="item.id"
+                  @click="selectDistributorItem(item)" :class="{ 'selected': item.shop_domain === selectedDistributorStore }">
+                <span>{{ item.shop_domain }}</span>
               </li>
             </ul>
           </div>
@@ -48,8 +49,9 @@
           <div class="preview-list">
             <ul class="list-group">
               <li v-if="distributorProducts.length <= 0">Select distributor store to display products</li>
-              <li class="list-group-item" v-for="item in distributorProducts" :key="item.id">
-                <a href="#" @click="selectDistributorProduct(item)">{{ item.title }}</a>
+              <li class="list-group-item cursor-pointer" v-for="item in distributorProducts" :key="item.id"
+                  @click="selectDistributorProduct(item)" :class="{ 'selected': item.id === selectedDistributorProduct }">
+                <span>{{ item.title }}</span>
               </li>
             </ul>
           </div>
@@ -59,8 +61,9 @@
           <div class="preview-header">Select Merchant Store</div>
           <div class="preview-list">
             <ul class="list-group">
-              <li class="list-group-item" v-for="item in merchantStores" :key="item.id">
-                <a href="#" @click="selectMerchantItem(item)">{{ item.shop_domain }}</a>
+              <li class="list-group-item cursor-pointer" v-for="item in merchantStores" :key="item.id"
+                  @click="selectMerchantItem(item)" :class="{ 'selected': item.shop_domain === selectedMerchantStore }">
+                <span>{{ item.shop_domain }}</span>
               </li>
             </ul>
           </div>
@@ -71,13 +74,14 @@
           <div class="preview-list">
             <ul class="list-group">
               <li v-if="merchantProducts.length <= 0">Select merchant store to display products</li>
-              <li class="list-group-item" v-for="item in merchantProducts" :key="item.id">
-                <a href="#" @click="selectMerchantProduct(item)">{{ item.title }}</a>
+              <li class="list-group-item cursor-pointer" v-for="item in merchantProducts" :key="item.id"
+                  @click="selectMerchantProduct(item)" :class="{ 'selected': item.id === selectedMerchantProduct }">
+                <span>{{ item.title }}</span>
               </li>
             </ul>
           </div>
         </div>
-
+        <button type="button" class="btn btn-success" :disabled="!merchantProducts || !selectedMerchantStore || !selectedDistributorStore || !selectedDistributorProduct">Save</button>
       </div>
     </div>
   </div>
@@ -176,7 +180,7 @@ export default {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  max-height: 300px;
+  max-height: 400px;
   width: 325px;
 }
 
@@ -208,6 +212,11 @@ export default {
 
 .list-group-item a:hover {
   color: #007bff;
+}
+
+.selected {
+  background-color: #13b981 !important;
+  color: #ffffff !important;
 }
 
 .ml-45 {
