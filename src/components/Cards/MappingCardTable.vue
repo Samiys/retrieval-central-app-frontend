@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded h-600-px"
+    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
     :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']"
   >
     <div class="rounded-t mb-0 px-4 py-3 border-0">
@@ -17,27 +17,13 @@
     </div>
     <div v-if="error">{{ error }}</div>
     <div class="block w-full overflow-x-auto" style="height: 100%">
-      <!-- Projects table -->
-<!--      <div v-for="(item, index) in distributorStores" :key="item.id">-->
-<!--        <div class="card">-->
-<!--          <div class="card-header" @click="toggleCollapse(index)">-->
-<!--            <h2>{{ item.shop_domain }}</h2>-->
-<!--            <span v-if="!collapsedItems.includes(index)">-</span>-->
-<!--            <span v-else>+</span>-->
-<!--          </div>-->
-<!--          <div v-show="!collapsedItems.includes(index)" class="card-content">-->
-<!--            {{ item.content }}-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
       <div class="flex ml-45">
         <div class="preview-box">
           <div class="preview-header">Distributor Stores</div>
           <div class="preview-list">
             <ul class="list-group">
               <li class="list-group-item cursor-pointer" v-for="item in distributorStores" :key="item.id"
-                  @click="selectDistributorItem(item)" :class="{ 'selected': item.shop_domain === selectedDistributorStore }">
+                  @click="selectDistributorItem(item)" :class="{ 'selected': item.id === selectedDistributorStoreId }">
                 <span>{{ item.shop_domain }}</span>
               </li>
             </ul>
@@ -50,7 +36,7 @@
             <ul class="list-group">
               <li v-if="distributorProducts.length <= 0">Select distributor store to display products</li>
               <li class="list-group-item cursor-pointer" v-for="item in distributorProducts" :key="item.id"
-                  @click="selectDistributorProduct(item)" :class="{ 'selected': item.id === selectedDistributorProduct }">
+                  @click="selectDistributorProduct(item.product_id)" :class="{ 'selected': item.product_id === selectedDistributorProductId }">
                 <span>{{ item.title }}</span>
               </li>
             </ul>
@@ -62,7 +48,7 @@
           <div class="preview-list">
             <ul class="list-group">
               <li class="list-group-item cursor-pointer" v-for="item in merchantStores" :key="item.id"
-                  @click="selectMerchantItem(item)" :class="{ 'selected': item.shop_domain === selectedMerchantStore }">
+                  @click="selectMerchantItem(item)" :class="{ 'selected': item.id === selectedMerchantStoreId }">
                 <span>{{ item.shop_domain }}</span>
               </li>
             </ul>
@@ -75,14 +61,123 @@
             <ul class="list-group">
               <li v-if="merchantProducts.length <= 0">Select merchant store to display products</li>
               <li class="list-group-item cursor-pointer" v-for="item in merchantProducts" :key="item.id"
-                  @click="selectMerchantProduct(item)" :class="{ 'selected': item.id === selectedMerchantProduct }">
+                  @click="selectMerchantProduct(item.product_id)" :class="{ 'selected': item.product_id === selectedMerchantProductId }">
                 <span>{{ item.title }}</span>
               </li>
             </ul>
           </div>
         </div>
-        <button type="button" class="btn btn-success" :disabled="!merchantProducts || !selectedMerchantStore || !selectedDistributorStore || !selectedDistributorProduct">Save</button>
+        <button type="button" class="btn btn-success" @click="saveMapping()"
+                :disabled="!selectedMerchantProductId || !selectedMerchantStoreId || !selectedDistributorStoreId || !selectedDistributorProductId">
+          Save
+        </button>
       </div>
+
+      <h5 class="ml-45" style="margin-top: 3%;margin-bottom: 1%">All Mappings</h5>
+      <table class="items-center w-full bg-transparent border-collapse mt-3 ml-45" style="width: 93%;margin-bottom: 3%;">
+        <thead>
+        <tr>
+          <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+              ]"
+          >
+            #
+          </th>
+          <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+              ]"
+          >
+            Distributor Store
+          </th>
+          <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+              ]"
+          >
+            Distributor Product
+          </th>
+          <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+              ]"
+          >
+            Retailer Store
+          </th>
+          <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+              ]"
+          >
+            Retailer Product
+          </th>
+          <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+              ]"
+          >
+            Action
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <div v-if="existedMapping">
+        </div>
+        <tr v-for="(item, index) in existedMapping" :key="item.id">
+          <th
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
+          >
+            {{ index + 1 }}
+          </th>
+          <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ item.distributor.shop_domain }}
+          </td>
+          <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ item.distributorProduct.title }}
+          </td>
+          <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ item.retailer.shop_domain }}
+          </td>
+          <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ item.retailerProduct.title }}
+          </td>
+          <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+          <span class="cursor-pointer" @click="deleteMapping(item.id)">
+            <i class="fas fa-trash" style="margin-left: 5px;"></i>
+          </span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -90,6 +185,7 @@
 
 import { StoreService } from "../../assets/common/store.service";
 import { ProductService } from "../../assets/common/product.service";
+import { MappingService } from "../../assets/common/mapping.service";
 
 export default {
   data() {
@@ -100,10 +196,11 @@ export default {
       merchantStores: [],
       distributorProducts: [],
       merchantProducts: [],
-      selectedDistributorStore: null,
-      selectedMerchantStore: null,
-      selectedDistributorProduct: null,
-      selectedMerchantProduct: null,
+      existedMapping: [],
+      selectedDistributorStoreId: null,
+      selectedMerchantStoreId: null,
+      selectedDistributorProductId: null,
+      selectedMerchantProductId: null,
     };
   },
   components: {
@@ -137,15 +234,46 @@ export default {
           .catch(error => {
             this.error = error.message;
           });
+
+      MappingService.getMappings()
+          .then(response => {
+            this.existedMapping = response.data;
+          })
+          .catch(error => {
+            this.error = error.message;
+          });
       },
-    selectDistributorProduct(item) {
-      this.selectedDistributorProduct = item.id;
+    saveMapping() {
+      const mappingData = {
+        'distributorId': this.selectedDistributorStoreId,
+        'distributorProductId': this.selectedDistributorProductId,
+        'retailerId': this.selectedMerchantStoreId,
+        'retailerProductId': this.selectedMerchantProductId
+      };
+      MappingService.saveMappings(mappingData).then(response => {
+        this.existedMapping.push(response.data);
+        }).catch(error => {
+          this.error = error.message;
+        });
     },
-    selectMerchantProduct(item) {
-      this.selectedMerchantProduct = item.id;
+    deleteMapping(id) {
+      MappingService.deleteMapping(id).then(() => {
+        const index = this.existedMapping.findIndex(mapping => mapping.id === id);
+        if (index !== -1) {
+          this.existedMapping.splice(index, 1);
+        }
+      }).catch(error => {
+        this.error = error.message;
+      });
+    },
+    selectDistributorProduct(product_id) {
+      this.selectedDistributorProductId = product_id;
+    },
+    selectMerchantProduct(product_id) {
+      this.selectedMerchantProductId = product_id;
     },
     selectDistributorItem(item) {
-      this.selectedDistributorStore = item.shop_domain;
+      this.selectedDistributorStoreId = item.id;
       ProductService.getProductsByStore(item.shop_domain)
           .then(response => {
             this.distributorProducts = response.data;
@@ -155,7 +283,7 @@ export default {
           });
     },
     selectMerchantItem(item) {
-      this.selectedMerchantStore = item.shop_domain;
+      this.selectedMerchantStoreId = item.id;
       ProductService.getProductsByStore(item.shop_domain)
           .then(response => {
             this.merchantProducts = response.data;
