@@ -27,6 +27,7 @@ import Mapping from "@/views/admin/Mapping.vue";
 import Products from "@/views/admin/Products.vue";
 import Orders from "@/views/admin/Orders.vue";
 import BrickMortarOrder from "@/views/admin/BrickMortarOrder.vue";
+import FetchProducts from "@/views/admin/FetchProducts.vue";
 
 // views for Auth layout
 
@@ -96,6 +97,13 @@ const routes = [
       {
         path: "/admin/brick-mortar-order",
         component: BrickMortarOrder,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "/admin/fetch-products",
+        component: FetchProducts,
         meta: {
           requiresAuth: true
         }

@@ -4,15 +4,14 @@
     :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']"
   >
     <div class="rounded-t mb-0 px-4 py-3 border-0">
-      <div class="flex flex-wrap items-center">
-        <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-          <h3
-            class="font-semibold text-lg"
-            :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']"
-          >
-            Mappings
-          </h3>
-        </div>
+      <div class="flex justify-between items-center">
+        <h3
+          class="font-semibold text-lg"
+          :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']"
+        >
+          Mappings
+        </h3>
+        <button type="button" class="btn btn-warning" onclick="window.location.href='/admin/fetch-products';">Fetch Products</button>
       </div>
     </div>
     <div v-if="error">{{ error }}</div>
