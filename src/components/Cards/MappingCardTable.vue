@@ -33,7 +33,8 @@
           <div class="preview-header">Select Distributor Product</div>
           <div class="preview-list">
             <ul class="list-group">
-              <li v-if="distributorProducts.length <= 0">Select distributor store to display products</li>
+              <li v-if="!isLoadingDistributorProducts && distributorProducts.length <= 0">Select distributor store to display products</li>
+              <li v-if="isLoadingDistributorProducts">Loading distributor products...</li>
               <li class="list-group-item cursor-pointer" v-for="item in distributorProducts" :key="item.id"
                   @click="selectDistributorProduct(item.product_id)" :class="{ 'selected': item.product_id === selectedDistributorProductId }">
                 <span>{{ item.title }}</span>
@@ -58,7 +59,8 @@
           <div class="preview-header">Select Merchant Product</div>
           <div class="preview-list">
             <ul class="list-group">
-              <li v-if="merchantProducts.length <= 0">Select merchant store to display products</li>
+              <li v-if="!isLoadingMerchantProducts && merchantProducts.length <= 0">Select merchant store to display products</li>
+              <li v-if="isLoadingMerchantProducts">Loading merchant products...</li>
               <li class="list-group-item cursor-pointer" v-for="item in merchantProducts" :key="item.id"
                   @click="selectMerchantProduct(item.product_id)" :class="{ 'selected': item.product_id === selectedMerchantProductId }">
                 <span>{{ item.title }}</span>
@@ -138,9 +140,7 @@
           </th>
         </tr>
         </thead>
-        <tbody>
-        <div v-if="existedMapping">
-        </div>
+        <tbody v-if="existedMapping">
         <tr v-for="(item, index) in existedMapping" :key="item.id">
           <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
@@ -150,22 +150,22 @@
           <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            {{ item.distributor.shop_domain }}
+            {{ item.distributor?.shop_domain }}
           </td>
           <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            {{ item.distributorProduct.title }}
+            {{ item.distributorProduct?.title }}
           </td>
           <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            {{ item.retailer.shop_domain }}
+            {{ item.retailer?.shop_domain }}
           </td>
           <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            {{ item.retailerProduct.title }}
+            {{ item.retailerProduct?.title }}
           </td>
           <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -196,6 +196,8 @@ export default {
       distributorProducts: [],
       merchantProducts: [],
       existedMapping: [],
+      isLoadingDistributorProducts: false,
+      isLoadingMerchantProducts: false,
       selectedDistributorStoreId: null,
       selectedMerchantStoreId: null,
       selectedDistributorProductId: null,
@@ -273,21 +275,27 @@ export default {
     },
     selectDistributorItem(item) {
       this.selectedDistributorStoreId = item.id;
+      this.isLoadingDistributorProducts = true;
       ProductService.getProductsByStore(item.shop_domain)
           .then(response => {
+            this.isLoadingDistributorProducts = false;
             this.distributorProducts = response.data;
           })
           .catch(error => {
+            this.isLoadingDistributorProducts = false;
             this.error = error.message;
           });
     },
     selectMerchantItem(item) {
       this.selectedMerchantStoreId = item.id;
+      this.isLoadingMerchantProducts = true;
       ProductService.getProductsByStore(item.shop_domain)
           .then(response => {
+            this.isLoadingMerchantProducts = false;
             this.merchantProducts = response.data;
           })
           .catch(error => {
+            this.isLoadingMerchantProducts = false;
             this.error = error.message;
           });
     },
