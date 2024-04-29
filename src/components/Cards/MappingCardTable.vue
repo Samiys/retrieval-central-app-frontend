@@ -15,8 +15,8 @@
       </div>
     </div>
     <div v-if="error">{{ error }}</div>
-    <div class="block w-full overflow-x-auto" style="height: 100%">
-      <div class="flex ml-45">
+    <div class="block w-full overflow-x-auto" style="height: 100%; width: 99%">
+      <div class="flex ml-20">
         <div class="preview-box">
           <div class="preview-header">Distributor Stores</div>
           <div class="preview-list">
@@ -74,8 +74,8 @@
         </button>
       </div>
 
-      <h5 class="ml-45" style="margin-top: 3%;margin-bottom: 1%">All Mappings</h5>
-      <table class="items-center w-full bg-transparent border-collapse mt-3 ml-45" style="width: 93%;margin-bottom: 3%;">
+      <h5 class="ml-20" style="margin-top: 3%;margin-bottom: 1%">All Mappings</h5>
+      <table class="items-center w-full bg-transparent border-collapse mt-3 ml-20" style="width: 98%;margin-bottom: 3%;">
         <thead>
         <tr>
           <th
@@ -278,6 +278,7 @@ export default {
       this.isLoadingDistributorProducts = true;
       ProductService.getProductsByStore(item.shop_domain)
           .then(response => {
+            console.log(response)
             this.isLoadingDistributorProducts = false;
             this.distributorProducts = response.data;
           })
@@ -356,5 +357,9 @@ export default {
 
 .ml-45 {
   margin-left: 45px;
+}
+
+.ml-20 {
+  margin-left: 20px;
 }
 </style>
