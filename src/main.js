@@ -1,26 +1,14 @@
 import { createApp } from "vue";
 import { createWebHistory, createRouter } from "vue-router";
-
-// styles
-
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@/assets/styles/tailwind.css";
-
-// mouting point for the whole app
-
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'jquery/src/jquery.js'
+import 'bootstrap/dist/js/bootstrap.min.js'
 import App from "@/App.vue";
-
-// layouts
-
 import Admin from "@/layouts/Admin.vue";
 import Auth from "@/layouts/Auth.vue";
-
-// views for Admin layout
-
 import Dashboard from "@/views/admin/Dashboard.vue";
-// import Settings from "@/views/admin/Settings.vue";
-// import Tables from "@/views/admin/Tables.vue";
-// import Maps from "@/views/admin/Maps.vue";
 import Users from "@/views/admin/Users.vue";
 import Stores from "@/views/admin/Stores.vue";
 import Mapping from "@/views/admin/Mapping.vue";
@@ -28,23 +16,11 @@ import Products from "@/views/admin/Products.vue";
 import Orders from "@/views/admin/Orders.vue";
 import BrickMortarOrder from "@/views/admin/BrickMortarOrder.vue";
 import FetchProducts from "@/views/admin/FetchProducts.vue";
-
-// views for Auth layout
-
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
-
-// views without layouts
-
-// import Landing from "@/views/Landing.vue";
 import Profile from "@/views/Profile.vue";
 import Index from "@/views/Index.vue";
-
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'jquery/src/jquery.js'
-import 'bootstrap/dist/js/bootstrap.min.js'
-
-// routes
+import Category from "@/views/admin/Category.vue";
 
 const routes = [
   {
@@ -97,6 +73,34 @@ const routes = [
       {
         path: "/admin/brick-mortar-order",
         component: BrickMortarOrder,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "/admin/category",
+        component: Category,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "/admin/add-category",
+        component: Category,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "/admin/edit-category/:name",
+        component: Category,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "/admin/connect-product-category",
+        component: Category,
         meta: {
           requiresAuth: true
         }
