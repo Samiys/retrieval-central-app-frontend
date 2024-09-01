@@ -17,7 +17,7 @@ export const CategoryService = {
         return axios.delete(`/deleteCategory/${category_id}`);
     },
 
-    addCategoryToProduct(product_id, category_id) {
-        return axios.post(`/addCategoryToProduct`, { product_id, category_id });
+    addCategoryToProducts(product_ids, category_id) {
+        return axios.post(`/addCategoryToProducts`, { product_ids, category_id });
     },
 };

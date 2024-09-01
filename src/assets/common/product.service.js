@@ -5,6 +5,13 @@ export const ProductService = {
     getProducts() {
         return axios.get(`${prefix}/getProducts`);
     },
+    getAllProductsByShopDomain(selectedStore) {
+        return axios.get(`/getAllProductsByShop`, {
+            params: {
+                shop_domain: selectedStore
+            }
+        });
+    },
     fetchProducts(selectedStore) {
         return axios.get(`${prefix}/fetchProducts`, {
             params: {
