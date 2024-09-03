@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="products.length > 0">
     <div class="rounded-t mb-0 mt-3 border-0">
       <div class="flex flex-wrap items-center">
         <div class="relative w-full max-w-full flex-grow flex-1">
@@ -138,6 +138,7 @@ export default {
   },
   computed: {
     ...mapState(['products', 'error']),
+
   },
   watch: {
     categorySelectedId(newCategoryId) {
@@ -147,9 +148,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchProductsByCategory', 'removeCategoryStore']),
+    ...mapActions(['fetchProductsByCategory', 'removeCategoryStore', 'fetchProductsByNullCategory']),
     removeCategory(id) {
-      this.removeCategoryStore({productId: id, shopDomain: this.shopDomain});
+      this.removeCategoryStore({ productId: id, shopDomain: this.shopDomain });
     }
   }
 };

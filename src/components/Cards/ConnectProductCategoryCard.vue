@@ -112,10 +112,10 @@
 
 <script>
 import { StoreService } from "@/assets/common/store.service";
-import { ProductService } from "@/assets/common/product.service";
 import { CategoryService } from "@/assets/common/category.service";
 import ProductsByCategoryCardTable from "@/components/Cards/ProductsByCategoryCardTable.vue";
 import CategorySelectContainer  from "@/components/CategorySelectContainer.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ConnectProductCategoryCard",
@@ -125,22 +125,25 @@ export default {
   },
   data() {
     return {
-      error: null,
       newItem: '',
       successMessage: '',
       storeData: null,
       refreshTrigger: {},
-      storeProducts: [],
       categories: [],
       selectedCategoryId: null,
       categorySelectedId: null,
       selectedProductIds: [],
-      isLoadingProducts: false,
       activeAccordion: null,
     };
   },
   mounted() {
     this.loadStoreData();
+  },
+  watch: {
+    storeProducts(newProducts) {
+      console.log("storeProducts: ", newProducts);
+      this.storeProducts = newProducts;
+    }
   },
   props: {
     color: {
@@ -150,7 +153,16 @@ export default {
       },
     },
   },
+  computed: {
+    ...mapState({
+      products: state => state.products,
+      storeProducts: state => state.storeProducts,
+      isLoadingProducts: state => state.isLoadingProducts,
+      error: state => state.error,
+    }),
+  },
   methods: {
+    ...mapActions(['fetchProductsByNullCategory', 'fetchCategories']),
     navigateToCategories() {
       this.$router.push("/admin/category");
     },
@@ -166,16 +178,14 @@ export default {
       this.categorySelectedId = categoryId;
     },
     updatedProductData(products) {
-      this.storeProducts = products;
+      this.$store.commit('setStoreProducts', products);
     },
     getStoreProducts(shop_domain) {
-      this.isLoadingProducts = true;
       this.shopDomain = shop_domain;
       this.categorySelectedId = null;
-      ProductService.getProductsByShopWhereNullCategory(shop_domain)
-          .then(response => {
-            this.isLoadingProducts = false;
-            this.storeProducts = response.data;
+      this.fetchProductsByNullCategory({ shopDomain: shop_domain })
+          .then(products => {
+            this.$store.commit('setStoreProducts', products);
           })
           .catch(error => {
             this.error = error.message;
@@ -207,6 +217,7 @@ export default {
               categoryId: this.selectedCategoryId,
               shopDomain: this.shopDomain
             });
+            this.getStoreProducts(this.shopDomain);
             this.storeProducts = response.data;
             this.successMessage = 'Products successfully assigned to category!';
             this.selectedProductIds = [];
