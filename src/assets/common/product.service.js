@@ -12,6 +12,13 @@ export const ProductService = {
             }
         });
     },
+    getProductsByShopWhereNullCategory(selectedStore) {
+        return axios.get(`/getProductsByShopWhereNullCategory`, {
+            params: {
+                shop_domain: selectedStore
+            }
+        });
+    },
     fetchProducts(selectedStore) {
         return axios.get(`${prefix}/fetchProducts`, {
             params: {

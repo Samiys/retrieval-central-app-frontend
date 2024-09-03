@@ -21,6 +21,7 @@ import Register from "@/views/auth/Register.vue";
 import Profile from "@/views/Profile.vue";
 import Index from "@/views/Index.vue";
 import Category from "@/views/admin/Category.vue";
+import store from './store';
 
 const routes = [
   {
@@ -173,4 +174,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-createApp(App).use(router).mount("#app");
+createApp(App).use(store).use(router).mount("#app");

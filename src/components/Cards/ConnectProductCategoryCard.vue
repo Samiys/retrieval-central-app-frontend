@@ -26,7 +26,7 @@
     <div v-if="successMessage" class="text-green-500 px-4 py-2">{{ successMessage }}</div>
 
     <div class="block w-full overflow-x-auto accordion-container">
-      <div class="accordion">
+      <div class="accordion category-margins">
         <div class="card" v-for="item in storeData" :key="item.id">
           <div class="card-header" :id="'heading' + item.id">
             <h5 class="mb-0">
@@ -36,7 +36,7 @@
                   :data-target="'#collapse' + item.id"
                   aria-expanded="false"
                   :aria-controls="'collapse' + item.id"
-                  @click="getStoreProducts(item.shop_domain)"
+                  @click="toggleAccordion(item.shop_domain)"
               >
                 {{ item.shop_domain }}
               </button>
@@ -48,7 +48,7 @@
               :aria-labelledby="'heading' + item.id"
               data-parent="#accordion"
           >
-            <div class="card-body">
+            <div class="card-body" v-if="activeAccordion === item.shop_domain">
               <div class="flex ml-20">
                 <div class="preview-box ml-3">
                   <div class="preview-header">Select Products</div>
@@ -88,12 +88,20 @@
                 <button
                     type="button"
                     class="btn btn-success"
-                    @click="saveMapping()"
+                    @click="saveMapping(item.shop_domain)"
                     :disabled="!selectedCategoryId || selectedProductIds.length === 0"
                 >
                   Save
                 </button>
               </div>
+              <category-select-container class="mt-4"
+                                         @category-selected="updateSelectedCategory"
+                                         :shop-domain="item.shop_domain"/>
+              <products-by-category-card-table class="category-margins"
+                                               :category-selected-id="categorySelectedId"
+                                               @updated-product-data="updatedProductData"
+                                               ref="productsTable"
+                                               :shop-domain="item.shop_domain"/>
             </div>
           </div>
         </div>
@@ -106,18 +114,29 @@
 import { StoreService } from "@/assets/common/store.service";
 import { ProductService } from "@/assets/common/product.service";
 import { CategoryService } from "@/assets/common/category.service";
+import ProductsByCategoryCardTable from "@/components/Cards/ProductsByCategoryCardTable.vue";
+import CategorySelectContainer  from "@/components/CategorySelectContainer.vue";
 
 export default {
+  name: "ConnectProductCategoryCard",
+  components: {
+    ProductsByCategoryCardTable,
+    CategorySelectContainer
+  },
   data() {
     return {
       error: null,
-      successMessage: '',  // Add success message data property
+      newItem: '',
+      successMessage: '',
       storeData: null,
+      refreshTrigger: {},
       storeProducts: [],
       categories: [],
       selectedCategoryId: null,
+      categorySelectedId: null,
       selectedProductIds: [],
       isLoadingProducts: false,
+      activeAccordion: null,
     };
   },
   mounted() {
@@ -135,9 +154,25 @@ export default {
     navigateToCategories() {
       this.$router.push("/admin/category");
     },
+    toggleAccordion(shop_domain) {
+      if (this.activeAccordion === shop_domain) {
+        this.activeAccordion = null;
+      } else {
+        this.activeAccordion = shop_domain;
+        this.getStoreProducts(shop_domain);
+      }
+    },
+    updateSelectedCategory(categoryId) {
+      this.categorySelectedId = categoryId;
+    },
+    updatedProductData(products) {
+      this.storeProducts = products;
+    },
     getStoreProducts(shop_domain) {
       this.isLoadingProducts = true;
-      ProductService.getAllProductsByShopDomain(shop_domain)
+      this.shopDomain = shop_domain;
+      this.categorySelectedId = null;
+      ProductService.getProductsByShopWhereNullCategory(shop_domain)
           .then(response => {
             this.isLoadingProducts = false;
             this.storeProducts = response.data;
@@ -154,7 +189,7 @@ export default {
         this.selectedProductIds.push(product_id);
       }
     },
-    saveMapping() {
+    saveMapping(shop_domain) {
       if (this.selectedProductIds.length === 0) {
         this.error = "Please select at least one product.";
         return;
@@ -165,13 +200,19 @@ export default {
         category_id: this.selectedCategoryId
       };
 
-      CategoryService.addCategoryToProducts(mappings.product_ids, mappings.category_id)
-          .then(() => {
+      CategoryService.addCategoryToProducts(mappings.product_ids, mappings.category_id, shop_domain)
+          .then(response => {
+            this.$store.dispatch('fetchCategories', this.shopDomain);
+            this.$store.dispatch('fetchProductsByCategory', {
+              categoryId: this.selectedCategoryId,
+              shopDomain: this.shopDomain
+            });
+            this.storeProducts = response.data;
             this.successMessage = 'Products successfully assigned to category!';
             this.selectedProductIds = [];
             this.selectedCategoryId = null;
             setTimeout(() => {
-              this.successMessage = '';  // Clear success message after 3 seconds
+              this.successMessage = '';
             }, 3000);
           })
           .catch(error => {
@@ -203,7 +244,7 @@ export default {
 </script>
 
 <style>
-.accordion {
+.category-margins {
   margin: 0 25px 0 20px;
 }
 
