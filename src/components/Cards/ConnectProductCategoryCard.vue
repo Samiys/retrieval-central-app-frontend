@@ -141,7 +141,6 @@ export default {
   },
   watch: {
     storeProducts(newProducts) {
-      console.log("storeProducts: ", newProducts);
       this.storeProducts = newProducts;
     }
   },
@@ -183,6 +182,7 @@ export default {
     getStoreProducts(shop_domain) {
       this.shopDomain = shop_domain;
       this.categorySelectedId = null;
+      this.$store.commit('setProducts', []);
       this.fetchProductsByNullCategory({ shopDomain: shop_domain })
           .then(products => {
             this.$store.commit('setStoreProducts', products);

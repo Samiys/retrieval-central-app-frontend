@@ -148,7 +148,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchProductsByCategory', 'removeCategoryStore', 'fetchProductsByNullCategory']),
+    ...mapActions(['fetchProductsByCategory', 'removeCategoryStore']),
     removeCategory(id) {
       this.removeCategoryStore({ productId: id, shopDomain: this.shopDomain });
     }
